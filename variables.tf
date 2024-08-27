@@ -15,3 +15,17 @@ variable "service_name" {
   description = "The service name identifier"
   default     = "autoscaling-app"
 }
+
+variable "instance_config" {
+  description = "Instance configuration"
+  type = object({
+    ami      = string
+    type     = string
+    key_name = optional(string, null)
+  })
+  default = {
+    ami      = "ami-0479653c00e0a5e59"
+    type     = "t4g.micro"
+    key_name = "cleber_kp"
+  }
+}
