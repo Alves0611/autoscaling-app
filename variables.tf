@@ -25,7 +25,25 @@ variable "instance_config" {
   })
   default = {
     ami      = "ami-0479653c00e0a5e59"
-    type     = "t4g.micro"
-    key_name = "cleber_kp"
+    type     = "t3.micro"
+    key_name = "studying"
   }
+}
+
+variable "alb_healthcheck_config" {
+  description = "Application Load Balancer configuration for healthchecks"
+  nullable    = true
+  default     = {}
+
+  type = object({
+    enabled             = optional(bool, true)
+    healthy_threshold   = optional(number, 5)
+    interval            = optional(number, 30)
+    matcher             = optional(string, "200")
+    path                = optional(string, "/")
+    port                = optional(string, "80")
+    protocol            = optional(string, "HTTP")
+    timeout             = optional(number, 5)
+    unhealthy_threshold = optional(number, 5)
+  })
 }
