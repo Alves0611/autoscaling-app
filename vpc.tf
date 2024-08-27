@@ -44,3 +44,10 @@ resource "aws_route_table" "private" {
     "Name" = "${local.namespaced_service_name}-private"
   }
 }
+
+resource "aws_route_table_association" "this" {
+  for_each = local.subnet_ids
+
+  route_table_id = can(regex(".*\\bpublic\\b.*", each.key)) ? aws_route_table.public.id : aws_route_table.private.id
+  subnet_id      = each.value
+}
