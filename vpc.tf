@@ -23,3 +23,24 @@ resource "aws_subnet" "this" {
     "Name" = "${local.namespaced_service_name}-${each.value.name}"
   }
 }
+
+resource "aws_route_table" "public" {
+  vpc_id = aws_vpc.this.id
+
+  route {
+    cidr_block = local.internet_cidr_block
+    gateway_id = aws_internet_gateway.this.id
+  }
+
+  tags = {
+    "Name" = "${local.namespaced_service_name}-public"
+  }
+}
+
+resource "aws_route_table" "private" {
+  vpc_id = aws_vpc.this.id
+
+  tags = {
+    "Name" = "${local.namespaced_service_name}-private"
+  }
+}
