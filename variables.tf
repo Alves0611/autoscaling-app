@@ -9,3 +9,9 @@ variable "environment" {
   type        = string
   default     = "dev"
 }
+
+variable "service_name" {
+  type        = string
+  description = "The service name identifier"
+  default     = "autoscaling-app"
+}
