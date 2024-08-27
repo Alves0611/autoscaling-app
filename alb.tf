@@ -28,3 +28,14 @@ resource "aws_alb_target_group" "http" {
     unhealthy_threshold = var.alb_healthcheck_config.unhealthy_threshold
   }
 }
+
+resource "aws_alb_listener" "http" {
+  load_balancer_arn = aws_alb.this.arn
+  port              = 80
+  protocol          = "HTTP"
+
+  default_action {
+    type             = "forward"
+    target_group_arn = aws_alb_target_group.http.arn
+  }
+}
