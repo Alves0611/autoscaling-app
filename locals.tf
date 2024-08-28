@@ -14,7 +14,7 @@ locals {
     }
     "pub_c" = {
       cidr_block = "10.0.32.0/20"
-      az         = "b"
+      az         = "c"
       name       = "public-c"
     }
     "pvt_a" = {
@@ -29,14 +29,15 @@ locals {
     }
     "pvt_c" = {
       cidr_block = "10.0.160.0/20"
-      az         = "b"
+      az         = "c"
       name       = "private-c"
     }
   }
   subnet_ids = {
     for k, v in aws_subnet.this : v.tags.Name => v.id
   }
-  public_subnet_ids   = [aws_subnet.this["pub_a"].id, aws_subnet.this["pub_b"].id]
+  public_subnet_ids   = [aws_subnet.this["pub_a"].id, aws_subnet.this["pub_b"].id, aws_subnet.this["pub_c"].id]
+  private_subnet_ids   = [aws_subnet.this["pvt_a"].id, aws_subnet.this["pvt_b"].id, aws_subnet.this["pvt_c"].id]
   internet_cidr_block = "0.0.0.0/0"
   common_tags = {
     Component = "auto-scalable"
