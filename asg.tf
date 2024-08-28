@@ -9,7 +9,7 @@ resource "aws_launch_template" "this" {
   }
 
   network_interfaces {
-    associate_public_ip_address = true
+    associate_public_ip_address = false
     security_groups             = [aws_security_group.autoscaling_group.id]
   }
 
@@ -33,7 +33,7 @@ resource "aws_autoscaling_group" "this" {
   force_delete              = var.autoscaling_group_config.force_delete
 
   target_group_arns   = [aws_alb_target_group.http.id]
-  vpc_zone_identifier = local.public_subnet_ids
+  vpc_zone_identifier = local.private_subnet_ids
 
   launch_template {
     id      = aws_launch_template.this.id
