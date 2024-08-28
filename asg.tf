@@ -21,3 +21,22 @@ resource "aws_launch_template" "this" {
     }
   }
 }
+
+resource "aws_autoscaling_group" "this" {
+  name = local.namespaced_service_name
+
+  desired_capacity          = var.autoscaling_group_config.desired_capacity
+  min_size                  = var.autoscaling_group_config.min_size
+  max_size                  = var.autoscaling_group_config.max_size
+  health_check_grace_period = var.autoscaling_group_config.health_check_grace_period
+  health_check_type         = var.autoscaling_group_config.health_check_type
+  force_delete              = var.autoscaling_group_config.force_delete
+
+  target_group_arns   = [aws_alb_target_group.http.id]
+  vpc_zone_identifier = local.public_subnet_ids
+
+  launch_template {
+    id      = aws_launch_template.this.id
+    version = aws_launch_template.this.latest_version
+  }
+}
