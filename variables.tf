@@ -75,3 +75,16 @@ variable "autoscaling_policy_cpu" {
     target_value     = optional(number, 40)
   })
 }
+
+variable "autoscaling_policy_alb" {
+  description = "Autoscaling policy for ALB request count configuration"
+  nullable    = true
+  default     = {}
+
+  type = object({
+    enabled          = optional(bool, true)
+    name             = optional(string, "Load balancer request count")
+    disable_scale_in = optional(bool, false)
+    target_value     = optional(number, 30)
+  })
+}
