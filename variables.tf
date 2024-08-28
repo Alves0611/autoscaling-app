@@ -62,3 +62,16 @@ variable "autoscaling_group_config" {
     force_delete              = optional(bool, true)
   })
 }
+
+variable "autoscaling_policy_cpu" {
+  description = "Autoscaling policy for CPU Utilization configuration"
+  nullable    = true
+  default     = {}
+
+  type = object({
+    enabled          = optional(bool, true)
+    name             = optional(string, "CPU Utilization")
+    disable_scale_in = optional(bool, false)
+    target_value     = optional(number, 40)
+  })
+}
