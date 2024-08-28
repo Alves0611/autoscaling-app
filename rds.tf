@@ -11,12 +11,12 @@ resource "aws_db_instance" "rds" {
   allocated_storage    = 10
   storage_type         = "gp2"
   engine               = "mysql"
-  engine_version       = "5.7"
-  instance_class       = "db.t2.micro"
+  engine_version       = "8.0.32"
+  instance_class       = "db.t3.micro"
   db_name              = "mydb"
   username             = "foo"
   password             = "foobarbaz"
-  parameter_group_name = "default.mysql5.7"
+  parameter_group_name = "default.mysql8.0"
   availability_zone    = "${var.aws_region}b"
   skip_final_snapshot  = true
 
