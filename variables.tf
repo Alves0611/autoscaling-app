@@ -47,3 +47,18 @@ variable "alb_healthcheck_config" {
     unhealthy_threshold = optional(number, 5)
   })
 }
+
+variable "autoscaling_group_config" {
+  description = "Autoscaling group configuration"
+  nullable    = true
+  default     = {}
+
+  type = object({
+    desired_capacity          = optional(number, 1)
+    min_size                  = optional(number, 1)
+    max_size                  = optional(number, 6)
+    health_check_grace_period = optional(number, 300)
+    health_check_type         = optional(string, "ELB")
+    force_delete              = optional(bool, true)
+  })
+}
