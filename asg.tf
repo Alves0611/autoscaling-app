@@ -40,3 +40,19 @@ resource "aws_autoscaling_group" "this" {
     version = aws_launch_template.this.latest_version
   }
 }
+
+resource "aws_autoscaling_policy" "cpu" {
+  enabled                = var.autoscaling_policy_cpu.enabled
+  name                   = var.autoscaling_policy_cpu.name
+  policy_type            = "TargetTrackingScaling"
+  autoscaling_group_name = aws_autoscaling_group.this.name
+
+  target_tracking_configuration {
+    disable_scale_in = var.autoscaling_policy_cpu.disable_scale_in
+    target_value     = var.autoscaling_policy_cpu.target_value
+
+    predefined_metric_specification {
+      predefined_metric_type = "ASGAverageCPUUtilization"
+    }
+  }
+}
