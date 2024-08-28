@@ -17,3 +17,11 @@ output "route_table_public_id" {
 output "route_table_private_id" {
   value = aws_route_table.private.id
 }
+
+output "alb_id" {
+  value = aws_alb.this.id
+}
+
+output "alb_dns" {
+  value = aws_alb.this.dns_name
+}
