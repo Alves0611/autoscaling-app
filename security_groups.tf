@@ -69,3 +69,20 @@ resource "aws_security_group" "rds" {
     "Name" = "${local.namespaced_service_name}-rds"
   }
 }
+
+resource "aws_security_group" "jenkins" {
+  name        = "${local.namespaced_service_name}-jenkins"
+  description = "Allows ssh traffic"
+  vpc_id      = aws_vpc.this.id
+
+  ingress {
+    from_port       = 22
+    to_port         = 22
+    protocol        = "tcp"
+    security_groups = [aws_security_group.autoscaling_group.id]
+  }
+
+  tags = {
+    "Name" = "${local.namespaced_service_name}-jenkins"
+  }
+}
