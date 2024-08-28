@@ -56,3 +56,20 @@ resource "aws_autoscaling_policy" "cpu" {
     }
   }
 }
+
+resource "aws_autoscaling_policy" "load_balancer" {
+  enabled                = var.autoscaling_policy_alb.enabled
+  name                   = var.autoscaling_policy_alb.name
+  policy_type            = "TargetTrackingScaling"
+  autoscaling_group_name = aws_autoscaling_group.this.name
+
+  target_tracking_configuration {
+    disable_scale_in = var.autoscaling_policy_alb.disable_scale_in
+    target_value     = var.autoscaling_policy_alb.target_value
+
+    predefined_metric_specification {
+      predefined_metric_type = "ALBRequestCountPerTarget"
+      resource_label         = "${aws_alb.this.arn_suffix}/${aws_alb_target_group.http.arn_suffix}"
+    }
+  }
+}
