@@ -52,3 +52,20 @@ resource "aws_security_group" "autoscaling_group" {
     "Name" = "${local.namespaced_service_name}-autoscaling-group"
   }
 }
+
+resource "aws_security_group" "rds" {
+  name        = "${local.namespaced_service_name}-rds"
+  description = "Allows incoming database connections"
+  vpc_id      = aws_vpc.this.id
+
+  ingress {
+    from_port       = 3306
+    to_port         = 3306
+    protocol        = "tcp"
+    security_groups = [aws_security_group.autoscaling_group.id]
+  }
+
+  tags = {
+    "Name" = "${local.namespaced_service_name}-rds"
+  }
+}
